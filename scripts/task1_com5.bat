@@ -1,0 +1,3 @@
+@echo off
+cd /d "%~dp0.."
+"C:\Users\joy40\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" -m csi_lab1.task1_terminal --port COM5 --baud 9600 --data-bits 8 --parity N --stop-bits 1 --terminator crlf
