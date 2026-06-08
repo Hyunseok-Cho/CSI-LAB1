@@ -90,12 +90,15 @@ def read_ascii_frame(
     inter_char_timeout_s: float = 0.2,
     deadline: float | None = None,
     max_len: int = 1024,
+    stop_event: object | None = None,
 ) -> bytes | None:
     """Read one MODBUS-ASCII frame or return None on transaction timeout."""
     buffer = bytearray()
     last_byte_at: float | None = None
 
     while True:
+        if stop_event is not None and getattr(stop_event, "is_set")():
+            return None
         now = time.monotonic()
         if deadline is not None and now >= deadline:
             return None
