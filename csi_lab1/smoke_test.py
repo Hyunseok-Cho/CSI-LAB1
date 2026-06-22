@@ -3,9 +3,9 @@ from __future__ import annotations
 import argparse
 import time
 
-from .cli_common import add_serial_args, format_hex
-from .serial_config import SerialConfig
-from .serial_win32 import SerialPort
+from .common.cli_common import add_serial_args, format_hex
+from .common.serial_config import SerialConfig
+from .serial_backend import SerialPort
 
 
 def read_until(port: SerialPort, expected: bytes, timeout_s: float) -> bytes:

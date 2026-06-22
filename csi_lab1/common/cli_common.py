@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 
 from .serial_config import FLOW_CONTROLS, SerialConfig
-from .serial_win32 import list_serial_ports, ports_label
+from ..serial_backend import list_serial_ports, ports_label
 
 
 def add_serial_args(
@@ -26,14 +26,14 @@ def add_serial_args(
 
 def choose_port(port: str | None) -> str:
     if port:
-        return port.upper()
+        return port.strip()
     ports = list_serial_ports()
     print(f"Detected ports: {ports_label(ports)}")
     if ports:
         default = ports[0]
         value = input(f"Port [{default}]: ").strip()
-        return (value or default).upper()
-    return input("Port: ").strip().upper()
+        return (value or default).strip()
+    return input("Port: ").strip()
 
 
 def serial_config_from_args(args: argparse.Namespace) -> SerialConfig:

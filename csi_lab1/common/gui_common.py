@@ -5,7 +5,7 @@ from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
 
 from .serial_config import FLOW_CONTROLS, SerialConfig
-from .serial_win32 import list_serial_ports
+from ..serial_backend import list_serial_ports
 
 
 class LogPane(ttk.Frame):

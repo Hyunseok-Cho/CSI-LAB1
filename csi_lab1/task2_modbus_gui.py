@@ -8,8 +8,8 @@ import time
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from .gui_common import LogPane, SerialConfigPanel
-from .modbus_ascii import (
+from .common.gui_common import LogPane, SerialConfigPanel
+from .common.modbus_ascii import (
     COMMAND_READ_TEXT,
     COMMAND_WRITE_TEXT,
     EX_ILLEGAL_FUNCTION,
@@ -22,7 +22,7 @@ from .modbus_ascii import (
     read_ascii_frame,
     validate_address,
 )
-from .serial_win32 import SerialPort
+from .serial_backend import SerialPort
 
 
 class ModbusGui:

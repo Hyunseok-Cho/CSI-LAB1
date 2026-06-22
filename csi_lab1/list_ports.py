@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .serial_win32 import list_serial_ports, ports_label
+from .serial_backend import list_serial_ports, ports_label
 
 
 def main() -> int:

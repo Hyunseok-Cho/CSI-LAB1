@@ -1,6 +1,6 @@
 import unittest
 
-from csi_lab1.modbus_ascii import (
+from csi_lab1.common.modbus_ascii import (
     COMMAND_READ_TEXT,
     COMMAND_WRITE_TEXT,
     ModbusAsciiError,

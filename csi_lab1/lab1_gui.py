@@ -10,9 +10,9 @@ import tkinter as tk
 from queue import Empty
 from tkinter import messagebox, ttk
 
-from .cli_common import format_hex
-from .gui_common import LogPane, SerialConfigPanel
-from .modbus_ascii import (
+from .common.cli_common import format_hex
+from .common.gui_common import LogPane, SerialConfigPanel
+from .common.modbus_ascii import (
     COMMAND_READ_TEXT,
     COMMAND_WRITE_TEXT,
     EX_ILLEGAL_FUNCTION,
@@ -24,7 +24,7 @@ from .modbus_ascii import (
     format_wire_hex,
     validate_address,
 )
-from .serial_win32 import SerialPort
+from .serial_backend import SerialPort
 from .task1_terminal import PING_RE, PONG_RE, TERMINATORS, parse_custom_terminator
 
 

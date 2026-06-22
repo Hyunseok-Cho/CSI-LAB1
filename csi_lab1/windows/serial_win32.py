@@ -7,7 +7,7 @@ import winreg
 from ctypes import wintypes
 from typing import Iterable
 
-from .serial_config import SerialConfig
+from ..common.serial_config import SerialConfig
 
 
 class SerialError(OSError):

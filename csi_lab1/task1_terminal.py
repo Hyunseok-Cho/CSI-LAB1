@@ -7,8 +7,8 @@ import sys
 import threading
 import time
 
-from .cli_common import add_serial_args, format_hex, print_frame, serial_config_from_args
-from .serial_win32 import SerialPort
+from .common.cli_common import add_serial_args, format_hex, print_frame, serial_config_from_args
+from .serial_backend import SerialPort
 
 
 TERMINATORS = {

@@ -19,6 +19,9 @@ class SerialConfig:
     write_timeout_ms: int = 1000
 
     def normalized(self) -> "SerialConfig":
+        port = self.port.strip()
+        if port.upper().startswith("COM"):
+            port = port.upper()
         parity = self.parity.upper()
         flow_control = self.flow_control.lower()
         if self.data_bits not in (7, 8):
@@ -34,7 +37,7 @@ class SerialConfig:
         if self.read_timeout_ms < 0 or self.write_timeout_ms < 0:
             raise ValueError("timeouts must not be negative")
         return SerialConfig(
-            port=self.port.strip().upper(),
+            port=port,
             baudrate=self.baudrate,
             data_bits=self.data_bits,
             parity=parity,

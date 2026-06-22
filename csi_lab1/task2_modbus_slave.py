@@ -4,8 +4,8 @@ import argparse
 import sys
 import threading
 
-from .cli_common import add_serial_args, serial_config_from_args
-from .modbus_ascii import (
+from .common.cli_common import add_serial_args, serial_config_from_args
+from .common.modbus_ascii import (
     COMMAND_READ_TEXT,
     COMMAND_WRITE_TEXT,
     EX_ILLEGAL_FUNCTION,
@@ -17,7 +17,7 @@ from .modbus_ascii import (
     format_wire_hex,
     read_ascii_frame,
 )
-from .serial_win32 import SerialPort
+from .serial_backend import SerialPort
 
 
 class SlaveApp:

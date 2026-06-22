@@ -4,8 +4,8 @@ import argparse
 import sys
 import time
 
-from .cli_common import add_serial_args, serial_config_from_args
-from .modbus_ascii import (
+from .common.cli_common import add_serial_args, serial_config_from_args
+from .common.modbus_ascii import (
     COMMAND_READ_TEXT,
     COMMAND_WRITE_TEXT,
     ModbusAsciiError,
@@ -16,7 +16,7 @@ from .modbus_ascii import (
     read_ascii_frame,
     validate_address,
 )
-from .serial_win32 import SerialPort
+from .serial_backend import SerialPort
 
 
 class MasterApp:

@@ -10,9 +10,9 @@ import time
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from .cli_common import format_hex
-from .gui_common import LogPane, SerialConfigPanel
-from .serial_win32 import SerialError, SerialPort
+from .common.cli_common import format_hex
+from .common.gui_common import LogPane, SerialConfigPanel
+from .serial_backend import SerialError, SerialPort
 from .task1_terminal import PING_RE, PONG_RE, TERMINATORS, parse_custom_terminator
 
 

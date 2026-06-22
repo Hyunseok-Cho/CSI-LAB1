@@ -3,26 +3,43 @@
 Python implementation for CSI Laboratory Exercise 1: RS-232 communication control
 and MODBUS-ASCII device communication.
 
-The project is designed for one Windows PC with two USB-to-RS232 adapters and one
-null-modem cable. It uses only the Python standard library and the Windows serial
-API, so no external packages are required.
+The project is designed for one Windows or macOS computer with two USB-to-RS232
+adapters and one null-modem cable. Windows can run without external packages
+through the bundled Win32 serial backend. macOS uses `pyserial`, listed in
+`requirements.txt`.
 
 ## Hardware Setup
 
 Connect the devices as follows:
 
 ```text
-Lab1_COM5 window -> COM5 -> USB-RS232 adapter #1
+Lab1 window A -> COM5 or /dev/cu.* -> USB-RS232 adapter #1
                                   |
                              null-modem cable
                                   |
-Lab1_COM6 window -> COM6 -> USB-RS232 adapter #2
+Lab1 window B -> COM6 or /dev/cu.* -> USB-RS232 adapter #2
 ```
 
 Only one program can open a COM port at a time. Close other serial terminals before
 running these scripts.
 
-## Recommended GUI
+## Repository Layout
+
+The code is split into shared logic and platform-specific serial backends:
+
+```text
+csi_lab1/
+  common/          shared protocol, serial config, CLI, and GUI helpers
+  windows/         Windows Win32 serial backend
+  macos/           macOS/POSIX pySerial backend
+  serial_backend.py  backend selector used by all applications
+  lab1_gui.py      unified Task 1 and Task 2 GUI entry point
+```
+
+The application entry points import `serial_backend.py`, so the same GUI and CLI
+logic can run on Windows and macOS while keeping OS-specific serial code isolated.
+
+## Windows GUI
 
 Open two PowerShell windows from the project directory and run:
 
@@ -41,6 +58,41 @@ matches the recommended MODBUS-ASCII character format for Task 2.
 
 The `.bat` launchers use the bundled Python runtime path, which avoids the Windows
 Store `python` alias issue on machines where plain `python` only prints `Python`.
+
+## macOS GUI
+
+Install Python dependencies once:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Find the two USB-RS232 adapter devices:
+
+```bash
+python -m serial.tools.list_ports -v
+python -m csi_lab1.list_ports
+ls /dev/cu.*
+```
+
+On macOS, choose the `/dev/cu.*` devices for the adapters. They usually look like:
+
+```text
+/dev/cu.usbserial-xxxx
+/dev/cu.PL2303-xxxx
+```
+
+Open two Terminal windows and run one GUI instance for each adapter:
+
+```bash
+source .venv/bin/activate
+python -m csi_lab1.lab1_gui --port /dev/cu.usbserial-xxxx
+```
+
+Use the second adapter path in the second Terminal window. The same unified GUI is
+used on Windows and macOS.
 
 ## Task 1: RS-232 COM Terminal
 
@@ -74,7 +126,8 @@ Implemented optional Task 1 features:
 
 Task 1 test flow:
 
-1. Open `Lab1_COM5.bat` and `Lab1_COM6.bat`.
+1. Open `Lab1_COM5.bat` and `Lab1_COM6.bat` on Windows, or two `lab1_gui`
+   instances with `/dev/cu.*` ports on macOS.
 2. Press `Open COM` in both windows.
 3. Go to the `Task 1 - COM terminal` tab.
 4. Send text from COM5 and verify it appears in the COM6 RX log.
@@ -115,7 +168,8 @@ Implemented custom application commands:
 
 Task 2 test flow:
 
-1. Open `Lab1_COM5.bat` and `Lab1_COM6.bat`.
+1. Open `Lab1_COM5.bat` and `Lab1_COM6.bat` on Windows, or two `lab1_gui`
+   instances with `/dev/cu.*` ports on macOS.
 2. Press `Open COM` in both windows.
 3. In the COM5 window, set Task 2 role to `master`.
 4. In the COM6 window, set Task 2 role to `slave`, set slave address to `1`, and
@@ -145,6 +199,12 @@ Verify a null-modem link between COM5 and COM6:
 
 ```powershell
 .\scripts\smoke_test_com5_com6.bat
+```
+
+On macOS, use the detected `/dev/cu.*` paths:
+
+```bash
+sh scripts/smoke_test.sh /dev/cu.usbserial-xxxx /dev/cu.usbserial-yyyy
 ```
 
 Run Task 1 CLI terminals:
